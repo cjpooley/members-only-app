@@ -1,12 +1,21 @@
 import React from 'react';
+import firebase from 'firebase/app';
+import { postWithCredentials } from '../data';
 
-export const GroupListItem = ({ group }) => (
-  <div className="list-item">
-    <div className="list-item-data">
-      <h3>{group.name}</h3>
-      <p>Owned by: {group.owner.fullName}</p>
-      <p>{group.members.length} members</p>
+export const GroupsListItem = ({ group }) => {
+  const requestToJoin = async () => {
+    await postWithCredentials(`/groups/${group.id}/requests`);
+    alert('Your request has been submitted!');
+  }
+
+  return (
+    <div className="list-item">
+      <div className="list-item-data">
+        <h3>{group.name}</h3>
+        <p>Owned by: {group.owner.fullName}</p>
+        <p>{group.members.length} members</p>
+      </div>
+      <button onClick={requestToJoin}>Ask to Join</button>
     </div>
-    <button>Ask to Join</button>
-  </div>
-);
+  );
+}

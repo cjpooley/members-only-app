@@ -4,23 +4,26 @@ import { GroupsList } from './GroupsList';
 import { GroupsListItem } from './GroupsListItem';
 import { MyGroupsListItem } from './MyGroupsListItem';
 import { useGroups } from './useGroups';
+import { useUserGroups } from './useUserGroups';
 
 export const GroupsListPage = () => {
   const { isLoading: isLoadingAllGroups, groups: allGroups } = useGroups();
-  const userGroups = [];
+  const { isLoading: isLoadingUserGroups, userGroups } = useUserGroups();
   const notUserGroups = allGroups.filter(group => 
     userGroups.every(userGroup => userGroup.id !== group.id));
+
+  const isLoading = isLoadingAllGroups || isLoadingUserGroups;
 
   return (
     <div className="centered-container">
       <h1 className="section-heading">My Groups</h1>
       <GroupsList
-        isLoading={false}
+        isLoading={isLoading}
         groups={userGroups}
         ListItemComponent={MyGroupsListItem} />
       <h1 className="section-heading">Other Groups</h1>
       <GroupsList
-        isLoading={false}
+        isLoading={isLoading}
         groups={notUserGroups}
         ListItemComponent={GroupsListItem} />
       <Link to="/create-group">

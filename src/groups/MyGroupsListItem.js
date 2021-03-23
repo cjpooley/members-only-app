@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const MyGroupListItem = ({ group }) => (
+export const MyGroupsListItem = ({ group }) => (
   <div className="list-item">
     <div className="list-item-data">
       <Link to={`/groups/${group.id}`}>

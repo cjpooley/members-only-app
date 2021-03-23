@@ -1,5 +1,5 @@
 {
-  "name": "front-end-template",
+  "name": "members-only-app",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",

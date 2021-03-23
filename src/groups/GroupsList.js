@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const GroupsList = ({ isLoading, groups, ListItemComponent }) => {
+export const GroupsList = ({ isLoading, groups, ListItemComponent }) => (
   isLoading
     ? <p>Loading...</p>
     : <>
@@ -8,4 +8,4 @@ export const GroupsList = ({ isLoading, groups, ListItemComponent }) => {
         <ListItemComponent key={group._id} group={group} />
       ))}
     </>
-}
+)
