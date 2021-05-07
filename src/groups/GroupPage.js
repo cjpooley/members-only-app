@@ -12,7 +12,33 @@ export const GroupPage = () => {
   const { data: group, setData: setGroup } = 
     useProtectedResource(`/groups/${id}`, { owner: {}, messages: [], requests: [], });
 
-  console.log(group);
+  const acceptRequest = async (requestId) => {
+    const response = await postWithCredentials(`/groups/${id}/requests/${requestId}/accept`);
+    const updatedRequests = await response.json();
+    setGroup({
+      ...group,
+      requests: updatedRequests,
+    });
+  }
+  
+  const rejectRequest = async (requestId) => {
+    const response = await postWithCredentials(`/groups/${id}/requests/${requestId}/reject`);
+    const updatedRequests = await response.json();
+    setGroup({
+      ...group,
+      requests: updatedRequests,
+    });
+  }
+
+  const postMessage = async () => {
+    const response = await postWithCredentials(`/groups/${id}/messages`, { text: messageValue });
+    const updatedMessages = await response.json();
+    setGroup({
+      ...group,
+      messages: updatedMessages,
+    });
+    setMessageValue('');
+  }
   
   return (
     <div className="centered-container">
@@ -25,8 +51,14 @@ export const GroupPage = () => {
           placeholder="Type your message here..."
           value={messageValue}
           onChange={e => setMessageValue(e.target.value)} />
-        <button>Submit</button>
+        <button onClick={postMessage}>Submit</button>
       </div>
+      {group.ownerId === user.uid
+        ? <RequestsList 
+            requests={group.requests}
+            onAccept={acceptRequest}
+            onReject={rejectRequest} />
+        : null}
     </div>
-  )
+  );
 }
